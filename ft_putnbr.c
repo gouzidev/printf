@@ -22,69 +22,69 @@ int	len(char *s)
 	return (i);
 }
 
-void	ft_print_rec(unsigned long n, char *base)
+void	ft_print_rec(unsigned long n, char *base, int *i)
 {
 	if (n > 0)
 	{
-		ft_print_rec(n / len(base), base);
-		ft_putchar(base[n % len(base)]);
+		ft_print_rec(n / len(base), base, i);
+		ft_putchar(base[n % len(base)], i);
 	}
 }
 
-void	ft_putint(int n)
+void	ft_putint(int n, int *i)
 {
 	if (n == -2147483648)
-		ft_putstr("-2147483648");
+		ft_putstr("-2147483648", i);
 	else
 	{
 		if (n == 0)
-			ft_putchar((n % 10) + '0');
+			ft_putchar((n % 10) + '0', i);
 		if (n < 0)
 		{
-			ft_putchar('-');
+			ft_putchar('-', i);
 			n = -n;
 		}
 		if (n > 0)
-			ft_print_rec(n, "0123456789");
+			ft_print_rec(n, "0123456789", i);
 	}
 }
 
-void	ft_putunsigned(unsigned int n)
+void	ft_putunsigned(unsigned int n, int *i)
 {
 	
 	if (n == 0)
-		ft_putchar('0');
+		ft_putchar('0', i);
 	if (n > 0)
-		ft_print_rec(n, "0123456789");
+		ft_print_rec(n, "0123456789", i);
 }
 
 
-void	ft_putaddr(void *p)
+void	ft_putaddr(void *p, int *i)
 {
 	unsigned long addr = (unsigned long)p;
 	char base[] = "0123456789abcdef";
 	if (p == NULL)
 	{
-		ft_putstr("(nil)");
+		ft_putstr("(nil)", i);
 		return ;
 	}
-	ft_putstr("0x");
+	ft_putstr("0x", i);
 	if (addr == 0)
-		ft_putchar(base[addr % 16]);
+		ft_putchar(base[addr % 16], i);
 	if (addr > 0)
-		ft_print_rec(addr, base);
+		ft_print_rec(addr, base, i);
 }
 
-void	ft_puthex(unsigned int n, char x)
+void	ft_puthex(unsigned int n, char x, int *i)
 {
 	
 	if (n == 0)
-		ft_putchar('0');
+		ft_putchar('0', i);
 	if (n > 0)
 	{
 		if (x == 'x')
-			ft_print_rec(n, "0123456789abcdef");
+			ft_print_rec(n, "0123456789abcdef", i);
 		else
-			ft_print_rec(n, "0123456789ABCDEF");
+			ft_print_rec(n, "0123456789ABCDEF", i);
 	}
 }
