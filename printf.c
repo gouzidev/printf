@@ -1,7 +1,8 @@
 #include "ft_printf.h"
 
-int	is_formatter(char c, char *s)
+int	c_in_str(char c, char *s)
 {
+	printf("FORMAT\n");
 	int	i;
 
 	i = 0;
@@ -24,9 +25,11 @@ int	ft_printf(const char *s, ...)
 	i = 0;
 	while (*s)
 	{
-		if (*s != '%')
+		if (*s >= 9 && *s <= 13)
+			handle_unprintables(*s, &i);
+		else if (*s != '%')
 			ft_putchar(*s, &i);
-		else if (is_formatter(*s, "csiupxX%"))
+		else if (*s == '%' && c_in_str(*(s + 1), "cisupxX%"))
 		{
 			s++;
 			if (*s == 'c')
@@ -43,7 +46,7 @@ int	ft_printf(const char *s, ...)
 				ft_putaddr(va_arg(v, void *), &i);
 			if (*s == 'x' || *s == 'X')
 				ft_puthex(va_arg(v, unsigned int), *s, &i);
-		}
+		} 
 		else
 			i++;
 		s++;

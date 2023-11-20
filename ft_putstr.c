@@ -21,3 +21,9 @@ void	ft_putstr(char *s, int *i)
 		s++;
 	}
 }
+
+void handle_unprintables(char c, int *i)
+{
+	write(1, &c, 1);
+	(*i)++;
+}
