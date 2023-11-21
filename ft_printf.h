@@ -30,10 +30,9 @@ void	ft_putstr(char *s, int *i);
 void	ft_putaddr(void *p, int *i);
 void	ft_puthex(unsigned int n, char x, int *i);
 void	handle_unprintables(char c, int *i);
-void    handle_width(char **s, va_list v, int *i);
-void	width_handler_str(char *str, char **p, int *i);
+void    handle_width(char **s, va_list v, int *i, char pad);
 int     ft_isdigit(int c);
-void	width_handler_int(int n, char **p, int *i);
+void	width_handler_int(int n, int *i, int w, char p);
 int	    ft_strlen(char *s);
-void	width_handler_str(char *str, char **p, int *i);
+void	width_handler_str(char *str, int *i, int w, char p);
 #endif

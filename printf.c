@@ -26,7 +26,14 @@ int	c_in_str(char c, char *s)
 	return (0);
 }
 
-void handle_width(char **s, va_list v, int *i)
+void skip_zeros(const char **s)
+{
+	while (**s == '0')
+	{
+		(*s)++;
+	}
+}
+void handle_width(char **s, va_list v, int *i, char pad)
 {
 	int	l;
 	int	w;
@@ -34,13 +41,16 @@ void handle_width(char **s, va_list v, int *i)
 
 	if (**s == 'd')
 	{
-		  
-		width_handler_int(va_arg(v, int), (char **)s, i);
-	
-	}	if (**s == 's')
-		width_handler_str(va_arg(v, char *), (char **)s, i);
+		width_handler_int(va_arg(v, int), i, w, pad);
+	}
+	if (**s == 's')
+		width_handler_str(va_arg(v, char *), i, w, pad);
 }
 
+int digit_non_zero(char c)
+{
+	return (c >= '1' && c <= '9');
+}
 void	handler(va_list v, int *i, const char **s)
 {
 	if (*s && **s == '%')
@@ -65,10 +75,17 @@ void	handler(va_list v, int *i, const char **s)
 		}
 		else if (*s && **s)
 		{
-			if (ft_isdigit(*(*s + 1)))
+			if (*(*s + 1) == '0')
 			{
-				(*s)++;
-				handle_width((char **)s, v, i);
+				(*s)+=1;
+				skip_zeros(s);
+				if (ft_isdigit(*(*s)))
+					handle_width((char **)s, v, i, '0');
+			}
+			if (digit_non_zero(*(*s + 1)))
+			{
+				(*s)+=1;
+				handle_width((char **)s, v, i, ' ');
 			}
 		}
 	}

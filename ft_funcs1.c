@@ -43,22 +43,20 @@ void	ft_print_rec(unsigned long n, char *base, int *i)
 	}
 }
 
-void	ft_putint(int n, int *i)
+void	ft_putint(int n, int *i, int pad_count)
 {
-	if (n == -2147483648)
-		ft_putstr("-2147483648", i);
-	else
+	long nb;
+
+	nb = n;
+	if (nb == 0)
+		ft_putchar((nb % 10) + '0', i);
+	if (nb < 0)
 	{
-		if (n == 0)
-			ft_putchar((n % 10) + '0', i);
-		if (n < 0)
-		{
-			ft_putchar('-', i);
-			n = -n;
-		}
-		if (n > 0)
-			ft_print_rec(n, "0123456789", i);
+		ft_putchar('-', i);
+		nb = -nb;
 	}
+	if (nb > 0)
+		ft_print_rec(nb, "0123456789", i);
 }
 
 void	ft_putunsigned(unsigned int n, int *i)

@@ -132,43 +132,38 @@ void	print_pad(int w, char pad, int *i)
 
 int	get_int_len(int n, int b)
 {
+	long nb;
 	int	i;
 
 	i = 0;
-	if (n <= 0)
+	nb = n;
+	if (nb <= 0)
 		i++;
-	while (n != 0)
+	while (nb != 0)
 	{
-		n = n / b;
+		nb = nb / b;
 		i++;
 	}
 	return (i);
 }
 
-void	width_handler_int(int n, char **p, int *i)
+void	width_handler_int(int n, int *i, int w, char pad)
 {
-	int	w;
 	int	l;
+	long nb;
 
-	w = ft_atoi(p);
-	if (**p == 'd' || **p == 'i')
-	{
-		l = get_int_len(n, 10);
-		print_pad(w - l, ' ', i);
-		ft_putint(n, i);
-	}
+	nb = n;
+
+
+	l = get_int_len(n, 10);
+	print_pad(w - l, pad, i);
+	ft_putint(nb, i);
 }
 
-void	width_handler_str(char *str, char **p, int *i)
+void	width_handler_str(char *str, int *i, int w, char pad)
 {
-	int	w;
 	int	l;
-
-	w = ft_atoi(p);
-	if (**p == 's')
-	{
-		l = ft_strlen(str);
-		print_pad(w - l, ' ', i);
-		ft_putstr(str, i);
-	}
+	l = ft_strlen(str);
+	print_pad(w - l, pad, i);
+	ft_putstr(str, i);
 }
