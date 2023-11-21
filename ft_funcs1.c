@@ -24,7 +24,7 @@
 
 #include "ft_printf.h"
 
-int	len(char *s)
+int	ft_strlen(char *s)
 {
 	int	i;
 
@@ -38,8 +38,8 @@ void	ft_print_rec(unsigned long n, char *base, int *i)
 {
 	if (n > 0)
 	{
-		ft_print_rec(n / len(base), base, i);
-		ft_putchar(base[n % len(base)], i);
+		ft_print_rec(n / ft_strlen(base), base, i);
+		ft_putchar(base[n % ft_strlen(base)], i);
 	}
 }
 
