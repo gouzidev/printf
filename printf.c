@@ -1,8 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   printf.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sgouzi <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/11/21 09:58:34 by sgouzi            #+#    #+#             */
+/*   Updated: 2023/11/21 09:58:38 by sgouzi           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int	c_in_str(char c, char *s)
 {
-	printf("FORMAT\n");
 	int	i;
 
 	i = 0;
@@ -15,40 +26,43 @@ int	c_in_str(char c, char *s)
 	return (0);
 }
 
+void	handler(va_list v, int *i, const char **s)
+{
+	if (*s && **s == '%')
+	{
+		if (c_in_str(*(*s + 1), "cidsupxX%"))
+		{
+			(*s)++;
+			if (**s == 'c')
+				ft_putchar(va_arg(v, int), i);
+			if (**s == 's')
+				ft_putstr(va_arg(v, char *), i);
+			if (**s == 'd' || **s == 'i')
+				ft_putint(va_arg(v, int), i);
+			if (**s == 'u')
+				ft_putunsigned(va_arg(v, unsigned int), i);
+			if (**s == '%')
+				ft_putchar('%', i);
+			if (**s == 'p')
+				ft_putaddr(va_arg(v, void *), i);
+			if (**s == 'x' || **s == 'X')
+				ft_puthex(va_arg(v, unsigned int), **s, i);
+		}
+	}
+	else if (*s && **s)
+		ft_putchar(**s, i);
+}
+
 int	ft_printf(const char *s, ...)
 {
-	va_list v;
+	va_list	v;
+	int		i;
 
 	va_start(v, s);
-	int i;
-
 	i = 0;
 	while (*s)
 	{
-		if (*s >= 9 && *s <= 13)
-			handle_unprintables(*s, &i);
-		else if (*s != '%')
-			ft_putchar(*s, &i);
-		else if (*s == '%' && c_in_str(*(s + 1), "cisupxX%"))
-		{
-			s++;
-			if (*s == 'c')
-				ft_putchar(va_arg(v, int), &i);
-			if (*s == 's')
-				ft_putstr(va_arg(v, char *), &i);
-			if (*s == 'i' || *s == 'd')
-				ft_putint(va_arg(v, int), &i);
-			if (*s == 'u')
-				ft_putunsigned(va_arg(v, unsigned int), &i);
-			if (*s == '%')
-				ft_putchar('%', &i);
-			if (*s == 'p')
-				ft_putaddr(va_arg(v, void *), &i);
-			if (*s == 'x' || *s == 'X')
-				ft_puthex(va_arg(v, unsigned int), *s, &i);
-		} 
-		else
-			i++;
+		handler(v, &i, &s);
 		s++;
 	}
 	va_end(v);
