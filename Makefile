@@ -1,7 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
 NAME = libftprintf.a
-SRCS = ft_funcs1.c ft_funcs2.c printf.c
+SRCS = ft_funcs1.c ft_funcs2.c ft_printf.c
 
 OBJS = $(SRCS:.c=.o)
 
